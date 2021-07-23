@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace TicTacToe
@@ -14,7 +13,7 @@ namespace TicTacToe
 
         // Constructors
 
-        // Default
+            // Default
         public Game(char[] inboard, char inCurrentPlayer)
         {
             Array.Copy(inboard, board, 10);
@@ -25,7 +24,15 @@ namespace TicTacToe
         public Game()
         { }
 
-        
+        // Interfaces
+        public interface IConsole  //abstraction for Console.Read/WriteLine()
+        {
+            void Write(string message);
+            void WriteLine(string message);
+            string ReadLine();
+        }
+
+
         // Methods
         static void UpdateDisplay()  //updates the formatted string used for displaying the gameboard to the board array's current state
         {
@@ -47,19 +54,19 @@ namespace TicTacToe
             return true;
         }
 
-        public static int GetMove() //Prompts the user for a valid move and re-prompts for every invailid input.  Checks that the input is an integer, single digit, and indicates an unclaimed space on the board.
+        public static int GetMove(IConsole console) //Prompts the user for a valid move and re-prompts for every invailid input.  Checks that the input is an integer, single digit, and indicates an unclaimed space on the board.
         {
-            Console.WriteLine("Enter the number of the square to give your mark:\n");
-            var moveAsString = Console.ReadLine();
+            console.WriteLine("Enter the number of the square to give your mark:\n");
+            var moveAsString = console.ReadLine();
             int moveAsInt;
 
             while (!int.TryParse(moveAsString, out moveAsInt) || !IsSingleDigit(moveAsString) || !board.Contains(char.Parse(moveAsString)))
             {
-                Console.WriteLine("This is not a valid input! Try an unclaimed square 1-9");
-                moveAsString = Console.ReadLine();
+                console.WriteLine("This is not a valid input! Try an unclaimed square 1-9");
+                moveAsString = console.ReadLine();
             }
 
-            Console.WriteLine($"Your move is {moveAsInt}");
+            console.WriteLine($"Your move is {moveAsInt}");
             return moveAsInt;
         }
 
@@ -74,13 +81,35 @@ namespace TicTacToe
             Console.WriteLine(boardDisplay);
         }
 
+        // Classes
+
+        public class ConsoleWrapper : IConsole
+        {
+            public void Write(string message)
+            {
+                Console.Write(message);
+            }
+
+            public void WriteLine(string message)
+            {
+                Console.WriteLine(message);
+            }
+
+            public string ReadLine()
+            {
+                return Console.ReadLine();
+            }
+        }
+
 
         static void Main()
-        {   
+        {
+            ConsoleWrapper consoleInput = new ConsoleWrapper();
+
             UpdateDisplay();
             PrintBoard();
             PrintTurn();
-            UpdateBoard(GetMove());
+            UpdateBoard(GetMove(consoleInput));
             PrintBoard();
         }
 }

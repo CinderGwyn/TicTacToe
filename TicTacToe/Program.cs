@@ -105,7 +105,7 @@ namespace TicTacToe
             
         }
 
-        public void ChangePlayer()
+        public void ChangePlayer()  //work on so testable without exposing currentplayer as a public var, use a property?
         {
             if (currentPlayer == 'X')
             {
@@ -119,8 +119,16 @@ namespace TicTacToe
 
         public bool IsTie()
         {
-            Console.WriteLine("You called IsTie");
-            return false;
+            char[] cleanBoard = new char[] { ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+            for (int i = 1; i <= 9; i++)
+            {
+                if (board[i] == cleanBoard[i])
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         // Classes

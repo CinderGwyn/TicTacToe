@@ -204,5 +204,40 @@ namespace TicTacToeUnitTests
 
             Assert.AreEqual<char>(testboard.currentPlayer, 'O');
         }
+
+        //IsTie() tests
+        [TestMethod]
+        public void AllSquaresUsed()
+        {
+            Game testboard = new Game();
+            for (int i = 1; i<=9; i++)
+            {
+                testboard.UpdateBoard(i);
+                testboard.ChangePlayer();
+            }
+
+            Assert.IsTrue(testboard.IsTie());
+        }
+        [TestMethod]
+        public void NotATie()
+        {
+            Game testBoard = new Game();
+
+            Assert.IsFalse(testBoard.IsTie());
+        }
+
+        [TestMethod]
+        public void StillNotATie()
+        {
+            Game testBoard = new Game ();
+
+            for (int i = 1; i <= 7; i++)
+            {
+                testBoard.UpdateBoard(i);
+                testBoard.ChangePlayer();
+            }
+
+            Assert.IsFalse(testBoard.IsTie());
+        }
     }
 }

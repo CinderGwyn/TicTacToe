@@ -61,7 +61,7 @@ namespace TicTacToeUnitTests
             Assert.AreEqual<int>(9, getMoveTest);
         }
         [TestMethod]
-        public void FourthTime()
+        public void FourthTime()  // loads the board with a move (X on square 9) and sees if GetMove() will discard an attempt to use 9 again.
         {
             Game testBoard = new Game();
             testBoard.UpdateBoard(9);
@@ -72,6 +72,137 @@ namespace TicTacToeUnitTests
             int getMoveTest = testBoard.GetMove(testInput);
 
             Assert.AreEqual<int>(8, getMoveTest);
+        }
+
+        // IsWin unit tests
+        [TestMethod]
+        public void XWinsTopRow()
+        {
+            Game testboard = new Game();
+            testboard.UpdateBoard(1);
+            testboard.UpdateBoard(2);
+            testboard.UpdateBoard(3);
+            Assert.IsTrue(testboard.IsWin());
+        }
+
+        [TestMethod]
+        public void OWinsTopRow()
+        {
+            Game testboard = new Game('O');
+
+            testboard.UpdateBoard(1);
+            testboard.UpdateBoard(2);
+            testboard.UpdateBoard(3);
+            Assert.IsTrue(testboard.IsWin());
+        }
+        [TestMethod]
+        public void OneSquareShort()
+        {
+            Game testboard = new Game();
+            testboard.UpdateBoard(1);
+            testboard.UpdateBoard(2);
+            Assert.IsFalse(testboard.IsWin());
+        }
+
+        [TestMethod]
+        public void XWinsMidRow()
+        {
+            Game testboard = new Game();
+
+            testboard.UpdateBoard(4);
+            testboard.UpdateBoard(5);
+            testboard.UpdateBoard(6);
+
+            Assert.IsTrue(testboard.IsWin());
+        }
+
+        [TestMethod]
+        public void XWinsBottomRow()
+        {
+            Game testboard = new Game();
+
+            testboard.UpdateBoard(7);
+            testboard.UpdateBoard(8);
+            testboard.UpdateBoard(9);
+
+            Assert.IsTrue(testboard.IsWin());
+
+        }
+
+        [TestMethod]
+        public void XWinsLeftColumn()
+        {
+            Game testboard = new Game();
+
+            testboard.UpdateBoard(1);
+            testboard.UpdateBoard(4);
+            testboard.UpdateBoard(7);
+
+            Assert.IsTrue(testboard.IsWin());
+
+        }
+
+        [TestMethod]
+        public void XWinsMidColumn()
+        {
+            Game testboard = new Game();
+
+            testboard.UpdateBoard(2);
+            testboard.UpdateBoard(5);
+            testboard.UpdateBoard(8);
+
+            Assert.IsTrue(testboard.IsWin());
+
+        }
+
+        [TestMethod]
+        public void XWinsRightColumn()
+        {
+            Game testboard = new Game();
+
+            testboard.UpdateBoard(3);
+            testboard.UpdateBoard(6);
+            testboard.UpdateBoard(9);
+
+            Assert.IsTrue(testboard.IsWin());
+
+        }
+
+        [TestMethod]
+        public void XWinsTLDiag()
+        {
+            Game testboard = new Game();
+
+            testboard.UpdateBoard(1);
+            testboard.UpdateBoard(5);
+            testboard.UpdateBoard(9);
+
+            Assert.IsTrue(testboard.IsWin());
+
+        }
+
+        [TestMethod]
+        public void XWinsBLDiag()
+        {
+            Game testboard = new Game();
+
+            testboard.UpdateBoard(3);
+            testboard.UpdateBoard(5);
+            testboard.UpdateBoard(7);
+
+            Assert.IsTrue(testboard.IsWin());
+
+        }
+
+        //ChangePlayer() tests
+        [TestMethod]
+        public void ItsOTurn()
+        {
+            Game testboard = new Game();
+
+            testboard.ChangePlayer();
+
+            Assert.AreEqual<char>(testboard.currentPlayer, 'O');
         }
     }
 }

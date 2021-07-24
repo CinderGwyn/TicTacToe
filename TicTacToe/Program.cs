@@ -9,7 +9,7 @@ namespace TicTacToe
         // Fields
         char[] board = new char[] { ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9' }; //represents the 9 squares on the board, skipping the 0 element for clarity
         string boardDisplay;
-        char currentPlayer = 'X';
+        public char currentPlayer = 'X';
 
         // Constructors
 
@@ -19,6 +19,11 @@ namespace TicTacToe
             Array.Copy(inboard, board, 10);
             currentPlayer = inCurrentPlayer;
 
+        }
+
+        public Game(char inCurrentPlayer)
+        {
+            currentPlayer = inCurrentPlayer;
         }
 
         public Game()
@@ -79,6 +84,43 @@ namespace TicTacToe
         public void PrintBoard()
         {
             Console.WriteLine(boardDisplay);
+        }
+
+        public bool IsWin()
+        {
+            if (
+                (board[1] == board[2] & board[2] == board[3]) ||
+                (board[4] == board[5] & board[5] == board[6]) ||
+                (board[7] == board[8] & board[8] == board[9]) ||
+                (board[1] == board[4] & board[4] == board[7]) ||
+                (board[2] == board[5] & board[5] == board[8]) ||
+                (board[3] == board[6] & board[6] == board[9]) ||
+                (board[1] == board[5] & board[5] == board[9]) ||
+                (board[3] == board[5] & board[5] == board[7])
+               )
+            { 
+                return true;
+            }
+            return false;
+            
+        }
+
+        public void ChangePlayer()
+        {
+            if (currentPlayer == 'X')
+            {
+                currentPlayer = 'O';
+            }
+            else
+            {
+                currentPlayer = 'X';
+            }
+        }
+
+        public bool IsTie()
+        {
+            Console.WriteLine("You called IsTie");
+            return false;
         }
 
         // Classes

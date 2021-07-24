@@ -7,23 +7,30 @@ namespace TicTacToe
     public class Game
     {
         // Fields
-        char[] board = new char[] { ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9' }; //represents the 9 squares on the board, skipping the 0 element for clarity
+        readonly char[] board = new char[] { ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9' }; //represents the 9 squares on the board, skipping the 0 element for clarity
         string boardDisplay;
-        public char currentPlayer = 'X';
+        private char currentPlayer = 'X';
+        public char GetPlayer  //property
+        {
+            get
+            {
+                return this.currentPlayer;
+            }
+        }
 
         // Constructors
 
-        // Default
+
         public Game(char[] inboard, char inCurrentPlayer)
         {
-            Array.Copy(inboard, board, 10);
-            currentPlayer = inCurrentPlayer;
+            Array.Copy(inboard, this.board, 10);
+            this.currentPlayer = inCurrentPlayer;
 
         }
 
         public Game(char inCurrentPlayer)
         {
-            currentPlayer = inCurrentPlayer;
+            this.currentPlayer = inCurrentPlayer;
         }
 
         public Game()
@@ -41,12 +48,12 @@ namespace TicTacToe
         // Methods
         public void UpdateDisplay()  //updates the formatted string used for displaying the gameboard to the board array's current state
         {
-            boardDisplay = String.Format("{0}{1}|{2}|{3}\n-----\n{4}|{5}|{6}\n-----\n{7}|{8}|{9}\n", null, board[1], board[2], board[3], board[4], board[5], board[6], board[7], board[8], board[9]);
+            this.boardDisplay = String.Format("{0}{1}|{2}|{3}\n-----\n{4}|{5}|{6}\n-----\n{7}|{8}|{9}\n", null, this.board[1], this.board[2], this.board[3], this.board[4], this.board[5], this.board[6], this.board[7], this.board[8], this.board[9]);
         }
 
         public void PrintTurn()
         {
-            Console.WriteLine($"Player {currentPlayer}'s turn\n");
+            Console.WriteLine($"Player {this.currentPlayer}'s turn\n");
         }
 
         public bool IsSingleDigit(string str)
@@ -65,38 +72,38 @@ namespace TicTacToe
             var moveAsString = console.ReadLine();
             int moveAsInt;
 
-            while (!int.TryParse(moveAsString, out moveAsInt) || !IsSingleDigit(moveAsString) || !board.Contains(char.Parse(moveAsString)))
+            while (!int.TryParse(moveAsString, out moveAsInt) || !this.IsSingleDigit(moveAsString) || !this.board.Contains(char.Parse(moveAsString)))
             {
                 console.WriteLine("This is not a valid input! Try an unclaimed square 1-9");
                 moveAsString = console.ReadLine();
             }
 
-            console.WriteLine($"Your move is {moveAsInt}");
+            console.WriteLine($"Your move is {moveAsInt}\n");
             return moveAsInt;
         }
 
         public void UpdateBoard(int moveInput)  //updates the array containing the states of the board's squares
         {
-            board[moveInput] = currentPlayer;
-            UpdateDisplay();
+            this.board[moveInput] = this.currentPlayer;
+            this.UpdateDisplay();
         }
 
         public void PrintBoard()
         {
-            Console.WriteLine(boardDisplay);
+            Console.WriteLine(this.boardDisplay);
         }
 
         public bool IsWin()
         {
             if (
-                (board[1] == board[2] & board[2] == board[3]) ||
-                (board[4] == board[5] & board[5] == board[6]) ||
-                (board[7] == board[8] & board[8] == board[9]) ||
-                (board[1] == board[4] & board[4] == board[7]) ||
-                (board[2] == board[5] & board[5] == board[8]) ||
-                (board[3] == board[6] & board[6] == board[9]) ||
-                (board[1] == board[5] & board[5] == board[9]) ||
-                (board[3] == board[5] & board[5] == board[7])
+                (this.board[1] == this.board[2] & this.board[2] == this.board[3]) ||
+                (this.board[4] == this.board[5] & this.board[5] == this.board[6]) ||
+                (this.board[7] == this.board[8] & this.board[8] == this.board[9]) ||
+                (this.board[1] == this.board[4] & this.board[4] == this.board[7]) ||
+                (this.board[2] == this.board[5] & this.board[5] == this.board[8]) ||
+                (this.board[3] == this.board[6] & this.board[6] == this.board[9]) ||
+                (this.board[1] == this.board[5] & this.board[5] == this.board[9]) ||
+                (this.board[3] == this.board[5] & this.board[5] == this.board[7])
                )
             { 
                 return true;
@@ -105,15 +112,15 @@ namespace TicTacToe
             
         }
 
-        public void ChangePlayer()  //work on so testable without exposing currentplayer as a public var, use a property?
+        public void ChangePlayer()  
         {
-            if (currentPlayer == 'X')
+            if (this.currentPlayer == 'X')
             {
-                currentPlayer = 'O';
+                this.currentPlayer = 'O';
             }
             else
             {
-                currentPlayer = 'X';
+                this.currentPlayer = 'X';
             }
         }
 
@@ -123,7 +130,7 @@ namespace TicTacToe
 
             for (int i = 1; i <= 9; i++)
             {
-                if (board[i] == cleanBoard[i])
+                if (this.board[i] == cleanBoard[i])
                 {
                     return false;
                 }
@@ -157,12 +164,31 @@ namespace TicTacToe
             ConsoleWrapper consoleInput = new Game.ConsoleWrapper();
             Game newGame = new Game();
 
-            newGame.UpdateDisplay();
-            newGame.PrintBoard();
-            newGame.PrintTurn();
-            newGame.UpdateBoard(newGame.GetMove(consoleInput));
-            newGame.PrintBoard();
+            do
+            {
+                newGame.UpdateDisplay();
+                newGame.PrintBoard();
+                newGame.PrintTurn();
+                newGame.UpdateBoard(newGame.GetMove(consoleInput));
+                if (newGame.IsWin() == true)
+                {
+                    newGame.PrintBoard();
+                    Console.WriteLine($"Player {newGame.currentPlayer} wins!");
+                    break;
+                }
+                
+                newGame.ChangePlayer();
+
+            }
+            while (newGame.IsTie() == false);
+
+            if (newGame.IsTie() == true  && newGame.IsWin() == false)
+            {
+                newGame.PrintBoard();
+                Console.WriteLine("Game ends in a tie!");
+            }
         }
+        
     }
 
 }

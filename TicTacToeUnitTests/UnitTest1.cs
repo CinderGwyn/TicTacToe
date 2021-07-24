@@ -32,7 +32,7 @@ namespace TicTacToeUnitTests
 
         }
 
-        ConsoleWrapper testInput = new ConsoleWrapper();
+        readonly ConsoleWrapper testInput = new ConsoleWrapper();
 
         [TestMethod]
         public void FirstMove9IsTrue()
@@ -202,7 +202,7 @@ namespace TicTacToeUnitTests
 
             testboard.ChangePlayer();
 
-            Assert.AreEqual<char>(testboard.currentPlayer, 'O');
+            Assert.AreEqual<char>(testboard.GetPlayer, 'O');
         }
 
         //IsTie() tests
@@ -239,5 +239,7 @@ namespace TicTacToeUnitTests
 
             Assert.IsFalse(testBoard.IsTie());
         }
+
+        
     }
 }

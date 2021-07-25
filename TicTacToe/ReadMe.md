@@ -18,4 +18,4 @@
 - [ ] Add Save/Load functionality
 - [ ] Add player name input editor
 - [ ] Add ToString() and EqualsTo() overrides
-- [ ] Refactor Main() into a class PlayGame
+- [x] Refactor Main() into a ~~class~~ method PlayGame

@@ -192,10 +192,5 @@ namespace TicTacToe
         {
             PlayGame();
         }
-
     }
-
 }
-
-
-

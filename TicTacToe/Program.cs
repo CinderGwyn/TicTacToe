@@ -4,6 +4,7 @@ using System.Linq;
 namespace TicTacToe
 {
 
+
     public class Game
     {
         // Fields
@@ -48,7 +49,7 @@ namespace TicTacToe
         // Methods
         public void UpdateDisplay()  //updates the formatted string used for displaying the gameboard to the board array's current state
         {
-            this.boardDisplay = String.Format("{0}{1}|{2}|{3}\n-----\n{4}|{5}|{6}\n-----\n{7}|{8}|{9}\n", null, this.board[1], this.board[2], this.board[3], this.board[4], this.board[5], this.board[6], this.board[7], this.board[8], this.board[9]);
+            this.boardDisplay = String.Format("\n{0}{1}|{2}|{3}\n-----\n{4}|{5}|{6}\n-----\n{7}|{8}|{9}\n", null, this.board[1], this.board[2], this.board[3], this.board[4], this.board[5], this.board[6], this.board[7], this.board[8], this.board[9]);
         }
 
         public void PrintTurn()
@@ -78,7 +79,7 @@ namespace TicTacToe
                 moveAsString = console.ReadLine();
             }
 
-            console.WriteLine($"Your move is {moveAsInt}\n");
+
             return moveAsInt;
         }
 
@@ -105,14 +106,14 @@ namespace TicTacToe
                 (this.board[1] == this.board[5] & this.board[5] == this.board[9]) ||
                 (this.board[3] == this.board[5] & this.board[5] == this.board[7])
                )
-            { 
+            {
                 return true;
             }
             return false;
-            
+
         }
 
-        public void ChangePlayer()  
+        public void ChangePlayer()
         {
             if (this.currentPlayer == 'X')
             {
@@ -158,8 +159,7 @@ namespace TicTacToe
             }
         }
 
-
-        static void Main()
+        static void PlayGame()
         {
             ConsoleWrapper consoleInput = new Game.ConsoleWrapper();
             Game newGame = new Game();
@@ -176,20 +176,26 @@ namespace TicTacToe
                     Console.WriteLine($"Player {newGame.currentPlayer} wins!");
                     break;
                 }
-                
+
                 newGame.ChangePlayer();
 
             }
             while (newGame.IsTie() == false);
 
-            if (newGame.IsTie() == true  && newGame.IsWin() == false)
+            if (newGame.IsTie() == true && newGame.IsWin() == false)
             {
                 newGame.PrintBoard();
                 Console.WriteLine("Game ends in a tie!");
             }
         }
-        
+        static void Main()
+        {
+            PlayGame();
+        }
+
     }
 
 }
+
+
 

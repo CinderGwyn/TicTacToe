@@ -7,7 +7,8 @@
 
 ### ToDo
 - [x] Add this. to method use of member variables, for clarity
-- [ ] Make a test method to overload instead of rewriting creating the class instance
+- [x] ~~Make a test method to overload instead of rewriting creating the class instance~~
+  - refactor repeated test setup statements into methods
 - [ ] Add UserMenu switch that forwards
    - 1-9 inputs into GetMove()
    - s into save
@@ -16,6 +17,7 @@
    - r into restart
    - h to list these options
 - [ ] Add Save/Load functionality
+  - [ ] Test
 - [ ] Add player name input editor
 - [ ] Add ToString() and EqualsTo() overrides
 - [x] Refactor Main() into a ~~class~~ method PlayGame

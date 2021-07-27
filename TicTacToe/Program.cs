@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.IO;
 
 namespace TicTacToe
 {
@@ -29,11 +30,6 @@ namespace TicTacToe
 
         }
 
-        public Game(char inCurrentPlayer)
-        {
-            this.currentPlayer = inCurrentPlayer;
-        }
-
         public Game()
         { }
 
@@ -43,6 +39,8 @@ namespace TicTacToe
             void Write(string message);
             void WriteLine(string message);
             string ReadLine();
+
+            void Clear();
         }
 
 
@@ -50,12 +48,9 @@ namespace TicTacToe
         public void UpdateDisplay()  //updates the formatted string used for displaying the gameboard to the board array's current state
         {
             this.boardDisplay = String.Format("\n{0}{1}|{2}|{3}\n-----\n{4}|{5}|{6}\n-----\n{7}|{8}|{9}\n", null, this.board[1], this.board[2], this.board[3], this.board[4], this.board[5], this.board[6], this.board[7], this.board[8], this.board[9]);
+            
         }
 
-        public void PrintTurn()
-        {
-            Console.WriteLine($"Player {this.currentPlayer}'s turn\n");
-        }
 
         public bool IsSingleDigit(string str)
         {
@@ -69,7 +64,7 @@ namespace TicTacToe
 
         public int GetMove(IConsole console) //Prompts the user for a valid move and re-prompts for every invailid input.  Checks that the input is an integer, single digit, and indicates an unclaimed space on the board.
         {
-            console.WriteLine("Enter the number of the square to give your mark:\n");
+            console.Write($"Player {currentPlayer}, enter the number of the square to give your mark: ");
             var moveAsString = console.ReadLine();
             int moveAsInt;
 
@@ -85,12 +80,15 @@ namespace TicTacToe
 
         public void UpdateBoard(int moveInput)  //updates the array containing the states of the board's squares
         {
+            
             this.board[moveInput] = this.currentPlayer;
             this.UpdateDisplay();
         }
 
         public void PrintBoard()
         {
+
+            Console.Clear();
             Console.WriteLine(this.boardDisplay);
         }
 
@@ -139,6 +137,22 @@ namespace TicTacToe
             return true;
         }
 
+        public bool Save ( string filename )
+        {
+            try
+            {
+                System.IO.TextWriter textOut = new System.IO.StreamWriter(filename);
+                textOut.WriteLine(this.GetPlayer);
+                textOut.WriteLine(this.board);
+                textOut.Close();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         // Classes
 
         public class ConsoleWrapper : IConsole
@@ -157,6 +171,11 @@ namespace TicTacToe
             {
                 return Console.ReadLine();
             }
+
+            public void Clear()
+            {
+                Console.Clear();
+            }
         }
 
         static void PlayGame()
@@ -166,9 +185,9 @@ namespace TicTacToe
 
             do
             {
+                
                 newGame.UpdateDisplay();
                 newGame.PrintBoard();
-                newGame.PrintTurn();
                 newGame.UpdateBoard(newGame.GetMove(consoleInput));
                 if (newGame.IsWin() == true)
                 {

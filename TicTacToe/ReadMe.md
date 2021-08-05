@@ -20,4 +20,5 @@
   - [ ] Test
 - [ ] Add player name input editor
 - [ ] Add ToString() and EqualsTo() overrides
+	- [x] EqualsTo()
 - [x] Refactor Main() into a ~~class~~ method PlayGame

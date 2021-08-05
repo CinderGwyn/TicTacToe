@@ -59,6 +59,11 @@ namespace TicTacToe
             }
         }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(board, GetPlayer);
+        }
+
         // Methods
         public void UpdateDisplay()  //updates the formatted string used for displaying the gameboard to the board array's current state
         {
@@ -226,9 +231,6 @@ namespace TicTacToe
             PlayGame();
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(board, GetPlayer);
-        }
+        
     }
 }

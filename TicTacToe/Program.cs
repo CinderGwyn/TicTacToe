@@ -171,6 +171,33 @@ namespace TicTacToe
             return true;
         }
 
+        public static Game Load(string filename)
+        {
+            Game result = null;
+            TextReader textIn = null;
+            try
+            {
+                textIn = new StreamReader(filename);
+                string loadedPlayer = textIn.ReadLine();
+                string loadedBoardString = textIn.ReadLine();
+
+                char playerChar = char.Parse(loadedPlayer);
+                char[] boardArray = loadedBoardString.ToCharArray();
+
+                result = new Game(boardArray, playerChar);
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                if (textIn != null) textIn.Close();
+            }
+
+            return result;
+        }
+
         // Classes
 
         public class ConsoleWrapper : IConsole
@@ -228,6 +255,7 @@ namespace TicTacToe
         }
         static void Main()
         {
+           
             PlayGame();
         }
 

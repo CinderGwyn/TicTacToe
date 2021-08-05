@@ -43,6 +43,21 @@ namespace TicTacToe
             void Clear();
         }
 
+        // Overrides
+
+        public override bool Equals(object obj)
+        {
+            Game b = obj as Game;
+
+            if ((b.board == this.board) && (b.GetPlayer == this.GetPlayer))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         // Methods
         public void UpdateDisplay()  //updates the formatted string used for displaying the gameboard to the board array's current state
@@ -124,19 +139,7 @@ namespace TicTacToe
         }
 
         public bool IsTie()
-        {
-            /*
-             char[] cleanBoard = new char[] { ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
-             for (int i = 1; i <= 9; i++)
-             {
-                 if (this.board[i] == cleanBoard[i])
-                 {
-                     return false;
-                 }
-             } 
-            */
-
+        {            
             for (int i = 1; i < this.board.Length; i++)
 
                 if (this.board[i] != 'X' && this.board[i] != 'O')
@@ -216,10 +219,16 @@ namespace TicTacToe
                 newGame.PrintBoard();
                 Console.WriteLine("Game ends in a tie!");
             }
+
         }
         static void Main()
         {
             PlayGame();
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(board, GetPlayer);
         }
     }
 }

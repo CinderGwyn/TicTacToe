@@ -17,7 +17,7 @@
    - r into restart
    - h to list these options
 - [x] Add Save/Load functionality
-  - [ ] Test
+  - [x] Test
 - [ ] Add player name input editor
 - [ ] Add ToString() and EqualsTo() overrides
 	- [x] EqualsTo()

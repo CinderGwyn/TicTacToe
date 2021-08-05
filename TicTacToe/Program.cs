@@ -20,6 +20,14 @@ namespace TicTacToe
             }
         }
 
+        public char[] GetBoard
+        {
+            get
+            {
+                return this.board;
+            }
+        }
+
         // Constructors
 
 
@@ -49,7 +57,7 @@ namespace TicTacToe
         {
             Game b = obj as Game;
 
-            if ((b.board == this.board) && (b.GetPlayer == this.GetPlayer))
+            if ((b.GetBoard.SequenceEqual(this.board)) && (b.GetPlayer == this.GetPlayer))
             {
                 return true;
             }
